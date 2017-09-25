@@ -18,16 +18,20 @@
 <%= p.number_field :days%>
 <%= p.label :"Hours"%>
 <%= p.number_field :hours%>
-
+<%= p.text_area :option_1%>
+<%= p.text_area :option_2%>
+<%= p.text_area :option_3%>
+<%= p.text_area :option_4%>
+<%= p.text_area :option_5%>
 <%= p.submit "Post"%>
+<%end%>
 <br>
-<%@all_polls.each do |p|%>
-<%=p.title%><br>
-<%=p.content%><br>
-<%=p.time_limit%><br>
-<%=p.end_time%>
 <br>
+<h3>All polls:</h3>
+<ul id ="polls">
+<%@all_polls.each do |poll|%>
+<%=render 'poll',poll:poll%>
 <br>
 
 <%end%>
-<%end%>
+</ul>

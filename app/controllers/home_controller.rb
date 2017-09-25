@@ -2,6 +2,7 @@ class HomeController < ApplicationController
 	before_action :authenticate_voter!
   def index
   	@poll=Poll.new
+    @option= Option.new
     @all_polls=Poll.all
   end
   def contact

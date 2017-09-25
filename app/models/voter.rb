@@ -7,6 +7,6 @@ class Voter < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   
-         has_many :polls
+  has_many :polls,:foreign_key => :voter_id,dependent: :destroy
 
 end
