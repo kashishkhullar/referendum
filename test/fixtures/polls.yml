@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyText
+  content: MyText
+  voter_id: 
+  time_limit: 2017-09-25 12:57:04
+  end_time: 2017-09-25 12:57:04
+  private: false
+
+two:
+  title: MyText
+  content: MyText
+  voter_id: 
+  time_limit: 2017-09-25 12:57:04
+  end_time: 2017-09-25 12:57:04
+  private: false

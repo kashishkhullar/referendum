@@ -1,0 +1,33 @@
+<h1>Home#index</h1>
+<p>Find me in app/views/home/index.html.erb</p>
+
+<%if voter_signed_in?%>
+<h1>Hello <%=current_voter.username%></h1>
+<%end%>
+<br>
+<%=link_to "logout",destroy_voter_session_path,method: :delete%>
+
+<%=form_for @poll,url: polls_create_path do |p|%>
+<%= p.label :Title%>
+<%= p.text_area :title%>
+<%= p.label :Content%>
+<%= p.text_area :content%>
+<%= p.check_box :private%>
+<%= p.label :Private%>
+<%= p.label :"Days"%>
+<%= p.number_field :days%>
+<%= p.label :"Hours"%>
+<%= p.number_field :hours%>
+
+<%= p.submit "Post"%>
+<br>
+<%@all_polls.each do |p|%>
+<%=p.title%><br>
+<%=p.content%><br>
+<%=p.time_limit%><br>
+<%=p.end_time%>
+<br>
+<br>
+
+<%end%>
+<%end%>
