@@ -6,6 +6,7 @@
 <br>
 <%=poll.content%>
 <br>
+<%=@all_votes.where(poll_id:poll.id).length%>
 <%options=@all_options.where(poll_id: poll.id)%>
 <%if vote=@all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
 <%options.each do |o|%>
