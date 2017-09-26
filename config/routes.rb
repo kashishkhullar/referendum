@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  post 'votes/create'
+
   get 'options/create'
 
   post 'polls/create'

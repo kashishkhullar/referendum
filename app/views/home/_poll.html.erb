@@ -6,7 +6,14 @@
 <br>
 <%=poll.content%>
 <br>
-
+<%options=@all_options.where(poll_id: poll.id)%>
+<%if vote=@all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
+<%options.each do |o|%>
+<%=render 'option',option:o%>
+<%end%>
+<%else%>
+thank you for voting!<br>
+<%end%>
 
 </div>
 

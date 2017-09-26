@@ -8,5 +8,6 @@ class Voter < ActiveRecord::Base
 
   
   has_many :polls,:foreign_key => :voter_id,dependent: :destroy
+  has_many :votes,:foreign_key => :voter_id,dependent: :destroy
 
 end
