@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   get 'polls/view'
 
+  get 'home/profile'
+
   get 'home/index'
 
   get 'home/contact'

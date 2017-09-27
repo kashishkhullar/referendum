@@ -1,4 +1,5 @@
 class PollsController < ApplicationController
+  before_action :authenticate_voter!,only: [:create,:destroy]
   def create
   	@poll = Poll.create(poll_params)
   	@poll.voter_id=current_voter.id
@@ -11,6 +12,8 @@ class PollsController < ApplicationController
   	@poll.save!
   	# params['poll']['poll_id']=poll.id
   	@poll.create_options poll_params
+    #Newpollmailer.new_poll_mail(@poll)
+    SendNewPollEmailJob.set(wait: 5.seconds).perform_later(@poll)
   	# if params['poll'][:option_1]!=nil && params['poll'][:option_1]!=""
   	# 	puts "here option one is made"
   	# 	option=Option.new

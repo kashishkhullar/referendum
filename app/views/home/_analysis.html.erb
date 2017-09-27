@@ -1,0 +1,9 @@
+Total Votes: <%=poll.votes.length%>
+<br>
+Options:
+<%poll.options.each do |option|%><br>
+Total votes on <%=option.name%> : <%=option.votes.length%> <br>
+Percentage: <%=(option.votes.length/poll.votes.length)*100%>
+<br>
+<%end%>
+

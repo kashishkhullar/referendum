@@ -1,21 +1,37 @@
 <li>
 
 
-<div id = "poll_<%poll.id%>">
+<div id = "poll_<%=poll.id%>">
 <%=poll.title%>
 <br>
 <%=poll.content%>
 <br>
 <%=@all_votes.where(poll_id:poll.id).length%>
 <%options=@all_options.where(poll_id: poll.id)%>
-<%if vote=@all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
-<%options.each do |o|%>
-<%=render 'option',option:o%>
-<%end%>
+<%#if voter_signed_in? && @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
+<%#options.each do |o|%>
+<%#=render 'option',option:o%>
+<%#end%>
+<%#elsif voter_signed_in?%>
+<!-- thank you for voting!<br> -->
+<%#else%>
+<%#options.each do |o|%>
+<%#=render 'option',option:o%>
+<%#end%>
+<%#end%>
+<%if voter_signed_in?%>
+	<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
+		<%options.each do |o|%>
+			<%=render 'option',option:o%>
+		<%end%>
+	<%else%>
+	thank you for voting!<br>
+	<%end%>
 <%else%>
-thank you for voting!<br>
+	<%options.each do |o|%>
+		<%=render 'option',option:o%>
+	<%end%>
 <%end%>
-
 </div>
 
 

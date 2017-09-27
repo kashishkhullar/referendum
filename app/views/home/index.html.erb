@@ -1,12 +1,15 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
-
+<h1>Welcome To Referendum</h1>
 <%if voter_signed_in?%>
 <h1>Hello <%=current_voter.username%></h1>
+<%=link_to "logout",destroy_voter_session_path,method: :delete%>
+<%=link_to "profile",home_profile_path,method: :get%>
+<%else%>
+<%=link_to "Signin",new_voter_session_path,method: :get%>
+
 <%end%>
 <br>
-<%=link_to "logout",destroy_voter_session_path,method: :delete%>
 
+Create a new poll:
 <%=form_for @poll,url: polls_create_path do |p|%>
 <%= p.label :Title%>
 <%= p.text_area :title%>
@@ -14,16 +17,21 @@
 <%= p.text_area :content%>
 <%= p.check_box :private%>
 <%= p.label :Private%>
+<br>
+Add time limit:
 <%= p.label :"Days"%>
 <%= p.number_field :days%>
 <%= p.label :"Hours"%>
 <%= p.number_field :hours%>
+<br>
+Add poll options(at max 5 allowed):
 <%= p.text_area :option_1%>
-<%= p.text_area :option_2%>
-<%= p.text_area :option_3%>
-<%= p.text_area :option_4%>
-<%= p.text_area :option_5%>
-<%= p.submit "Post"%>
+<br>
+<%= p.text_area :option_2%><br>
+<%= p.text_area :option_3%><br>
+<%= p.text_area :option_4%><br>
+<%= p.text_area :option_5%><br>
+<%= p.submit "Create Poll"%>
 <%end%>
 <br>
 <br>
@@ -32,6 +40,5 @@
 <%@all_polls.each do |poll|%>
 <%=render 'poll',poll:poll%>
 <br>
-
 <%end%>
 </ul>

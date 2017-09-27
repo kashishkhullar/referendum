@@ -1,6 +1,8 @@
 class VotesController < ApplicationController
+	before_action :authenticate_voter!,only: [:create]
   def create
   	vote=Vote.create(vote_params)
+  	SendNewVoteMailJob.set(wait: 5.seconds).perform_later(current_voter,Poll.find(vote.poll_id))
   	redirect_to '/home/index'
 
   end
