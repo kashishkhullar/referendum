@@ -8,37 +8,77 @@
 
 <%end%>
 <br>
-
-Create a new poll:
-<%=form_for @poll,url: polls_create_path do |p|%>
-<%= p.label :Title%>
-<%= p.text_area :title%>
-<%= p.label :Content%>
-<%= p.text_area :content%>
-<%= p.check_box :private%>
-<%= p.label :Private%>
-<br>
-Add time limit:
-<%= p.label :"Days"%>
-<%= p.number_field :days%>
-<%= p.label :"Hours"%>
-<%= p.number_field :hours%>
-<br>
-Add poll options(at max 5 allowed):
-<%= p.text_area :option_1%>
-<br>
-<%= p.text_area :option_2%><br>
-<%= p.text_area :option_3%><br>
-<%= p.text_area :option_4%><br>
-<%= p.text_area :option_5%><br>
-<%= p.submit "Create Poll"%>
+<%if @search.nil?%>
+	Create a new poll:
+	<%=form_for @poll,url: polls_create_path do |p|%>
+	<%= p.label :Title%>
+	<%= p.text_area :title%>
+	<%= p.label :Content%>
+	<%= p.text_area :content%>
+	<%= p.check_box :private%>
+	<%= p.label :Private%>
+	<br>
+	Add time limit:
+	<%= p.label :"Days"%>
+	<%= p.number_field :days%>
+	<%= p.label :"Hours"%>
+	<%= p.number_field :hours%>
+	<br>
+	Add poll options(at max 5 allowed):
+	<%= p.text_area :option_1%>
+	<br>
+	<%= p.text_area :option_2%><br>
+	<%= p.text_area :option_3%><br>
+	<%= p.text_area :option_4%><br>
+	<%= p.text_area :option_5%><br>
+	<%= p.submit "Create Poll"%>
+	<%end%>
+	<br>
+	<br>
+	<h3>All polls:</h3>
+	<ol id ="polls">
+	<%@all_polls.each do |poll|%>
+	<li>
+	<%=render 'poll',poll:poll%>
+	<br>
+	</li>
+	<%end%>
+	</ol>
+	<h3>Top polls:</h3>
+	<ol id ="polls">
+	<%@top.each do |poll|%>
+	<li>
+	<%=render 'poll',poll:poll%>
+	<br><%=poll.votes.length%>
+	<br>
+	</li>
+	<%end%>
+	</ol>
+	<h3>Latest Polls</h3>
+	<ol id ="polls">
+	<%@latest.each do |poll|%>
+	<li>
+	<%=render 'poll',poll:poll%>
+	<br><%=poll.votes.length%>
+	<br>
+	</li>
+	<%end%>
+	</ol>
+<%else%>
+	<h3>Search Result</h3>
+	<ol id ="polls">
+	<%@search.each do |poll|%>
+	<li>
+	<%=poll.title%>
+	<br>
+	<%=poll.content%>
+	<br>
+	<br><%=poll.votes.length%>
+	<br>
+	</li>
+	<%end%>
+	</ol>
+	<%if @search.blank?%>
+	there are no searchs.
+	<%end%>
 <%end%>
-<br>
-<br>
-<h3>All polls:</h3>
-<ul id ="polls">
-<%@all_polls.each do |poll|%>
-<%=render 'poll',poll:poll%>
-<br>
-<%end%>
-</ul>

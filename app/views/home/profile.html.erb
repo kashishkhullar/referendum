@@ -1,11 +1,26 @@
 Hi <%=current_voter.username%>!
 <%=link_to 'edit profile',edit_voter_registration_path,method: :get%>
-
+<br>
 Your Active polls:
 <br>
-
+<br>
 <ul id ="polls">
-<%@all_polls.each do |poll|%>
+<%@active_polls.each do |poll|%>
+Title: <%=poll.title%><br>
+Content: <%=poll.content%><br>
+End Date and time: <%=poll.end_time%><br>
+
+<%=render 'analysis',poll:poll%>
+
+<br>
+<br>
+<%end%>
+</ul>
+Your ended polls:
+<br>
+<br>
+<ul id ="polls">
+<%@ended_polls.each do |poll|%>
 Title: <%=poll.title%><br>
 Content: <%=poll.content%><br>
 End Date and time: <%=poll.end_time%><br>

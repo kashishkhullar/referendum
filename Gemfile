@@ -34,7 +34,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem 'delayed_job_active_record'
 gem 'whenever',require: false
-
+gem 'rails4-autocomplete'
+gem 'jquery-ui-rails'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'

@@ -7,6 +7,8 @@ class Poll < ActiveRecord::Base
 
   validates :hours, :inclusion => { :in => 0..23 }
 
+  default_scope {where(private: false)}
+
 
   def create_options poll_params
   	puts "here"
@@ -44,6 +46,10 @@ class Poll < ActiveRecord::Base
   		option.save!
   	end
 
+  end
+
+  def self.search(search)
+  where("title LIKE ? OR content LIKE ?", "%#{search}%", "%#{search}%")
   end
 
 

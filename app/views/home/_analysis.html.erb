@@ -3,7 +3,11 @@ Total Votes: <%=poll.votes.length%>
 Options:
 <%poll.options.each do |option|%><br>
 Total votes on <%=option.name%> : <%=option.votes.length%> <br>
+<%if option.votes.length>0%>
 Percentage: <%=(option.votes.length/poll.votes.length)*100%>
+<%else%>
+There are no votes on this poll yet.
+<%end%>
 <br>
 <%end%>
 
