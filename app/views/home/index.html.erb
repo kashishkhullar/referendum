@@ -39,7 +39,9 @@
 	<ol id ="polls">
 	<%@all_polls.each do |poll|%>
 	<li>
+	<a href="/polls/view/<%=poll.id%>">
 	<%=render 'poll',poll:poll%>
+	</a>
 	<br>
 	</li>
 	<%end%>
@@ -65,7 +67,8 @@
 	<%end%>
 	</ol>
 <%else%>
-	<h3>Search Result</h3>
+	<h3>Search Result Found: <%=@search_count%></h3>
+	<%= will_paginate @search %>
 	<ol id ="polls">
 	<%@search.each do |poll|%>
 	<li>
@@ -81,4 +84,5 @@
 	<%if @search.blank?%>
 	there are no searchs.
 	<%end%>
+
 <%end%>

@@ -1,2 +1,41 @@
 <h1>Polls#view</h1>
 <p>Find me in app/views/polls/view.html.erb</p>
+<%options=@all_options.where(poll_id: @poll.id)%>
+
+Title:
+<br>
+<%=@poll.title%>
+<br>
+Content:
+<br>
+<%=@poll.content%>
+<br>
+Start Time:<%=@poll.created_at%>
+<br>
+End Time:<%=@poll.end_time%>
+<br>
+<%t=((@poll.end_time - @poll.created_at)).to_i%>
+Time Limit:
+days: <%=(t/3600)/24%>
+hours: <%=(t/3600)%24%>
+minute: <%=(t/60)%60%>
+seconds: <%=t%60%>
+<%= countdown @poll.created_at + @poll.end_time %>
+<%if voter_signed_in?%>
+	<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: @poll.id).nil?%>
+		<%options.each do |o|%>
+			<%=render 'home/option',option:o%>
+		<%end%>
+	<%else%>
+	thank you for voting!<br>
+	<%end%>
+<%else%>
+	<%options.each do |o|%>
+		<%=render 'home/option',option:o%>
+	<%end%>
+<%end%>
+
+Analysis:
+<br>
+<%=render 'home/analysis',poll:@poll%>
+<br>

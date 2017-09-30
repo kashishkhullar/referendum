@@ -17,7 +17,11 @@ class HomeController < ApplicationController
         @top=getTop.reverse.take(10)
         @latest=getLatest.take(10)
     else
-      @search=Poll.search(params[:search]).where(private: false).order(created_at: :desc)
+
+      @search=Poll.search(params[:search]).paginate(:page =>params[:page]).where(private: false).order(created_at: :desc)
+      #@search.paginate(:page =>params[:page])
+      #@all=Poll.
+      @search_count=Poll.search(params[:search]).length
     end
 
     

@@ -3,12 +3,17 @@ class PollsController < ApplicationController
   def create
   	@poll = Poll.create(poll_params)
   	@poll.voter_id=current_voter.id
-  	days=params[:days].to_i
-  	hours=params[:hours].to_i
-  	time = (days*24*60*60 + hours*60*60)
-  	
-  	@poll.time_limit=time
-  	@poll.end_time=Time.now + time
+  	days=poll_params[:days]
+  	hours=poll_params[:hours]
+  	time = (days.to_i*24*60*60 + hours.to_i*60*60).to_i
+  	t=Time.now.to_i
+    puts "here"
+    puts  days
+    puts hours
+    puts time
+    puts t
+  	# @poll.time_limit=
+  	@poll.end_time= Time.at(t + time)
   	@poll.save!
   	# params['poll']['poll_id']=poll.id
   	@poll.create_options poll_params
@@ -57,6 +62,13 @@ class PollsController < ApplicationController
   end
 
   def view
+        @poll=Poll.find_by_id(params[:poll_id])
+        @option= Option.new
+        @all_polls=Poll.all
+        @all_options=Option.all
+        @vote=Vote.new
+        @all_votes=Vote.all
+
   end
 
   private

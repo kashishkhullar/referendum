@@ -1,13 +1,17 @@
 
 	<div id="option_<%=option.id%>">
-	<%=form_for @vote,url:votes_create_path do |v|%>
 	<%if voter_signed_in?%>
+	<%=form_for @vote,url:votes_create_path do |v|%>
+	
 	<%=v.hidden_field :option_id,:value=> option.id%>
 	<%=v.hidden_field :poll_id,:value=> option.poll.id%>
 	<%=v.hidden_field :voter_id,:value=> current_voter.id%>
-	<%end%>
-	<%=v.submit option.name%>
 	
-	<br>
+	<%=v.submit option.name%>
 	<%end%>
+	<%else%>
+	<%=option.name%>
+	<%end%>
+	<br>
+	
 	</div>

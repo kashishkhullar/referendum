@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   get 'polls/destroy'
 
-  get 'polls/view'
+  get 'polls/view/:poll_id' =>"polls#view"
 
   get 'home/profile'
 
