@@ -14,8 +14,7 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require autocomplete-rails
+//= require social-share-button
+//= require social-share-button/wechat
 //= require turbolinks
 //= require_tree .
-var newYear = new Date(); 
-newYear = new Date(newYear.getFullYear() + 1, 1 - 1, 1);
-$('defaultCountdown').countdown({until: liftoffTime, format: 'dHM'});

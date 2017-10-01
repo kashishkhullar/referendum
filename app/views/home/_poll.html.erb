@@ -6,6 +6,7 @@
 <%=poll.content%>
 <br>
 <%=@all_votes.where(poll_id:poll.id).length%>
+<%if Time.now<poll.end_time%>
 <%options=@all_options.where(poll_id: poll.id)%>
 <%#if voter_signed_in? && @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
 <%#options.each do |o|%>
@@ -18,18 +19,21 @@
 <%#=render 'option',option:o%>
 <%#end%>
 <%#end%>
-<%if voter_signed_in?%>
-	<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
+	<%if voter_signed_in?%>
+		<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
+			<%options.each do |o|%>
+				<%=render 'option',option:o%>
+			<%end%>
+		<%else%>
+		thank you for voting!<br>
+		<%end%>
+	<%else%>
 		<%options.each do |o|%>
 			<%=render 'option',option:o%>
 		<%end%>
-	<%else%>
-	thank you for voting!<br>
 	<%end%>
 <%else%>
-	<%options.each do |o|%>
-		<%=render 'option',option:o%>
-	<%end%>
+The poll has ended!
 <%end%>
 </div>
 

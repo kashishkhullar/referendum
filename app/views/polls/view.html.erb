@@ -1,26 +1,50 @@
 <h1>Polls#view</h1>
 <p>Find me in app/views/polls/view.html.erb</p>
+
 <%options=@all_options.where(poll_id: @poll.id)%>
 
 Title:
 <br>
 <%=@poll.title%>
 <br>
+
 Content:
 <br>
 <%=@poll.content%>
 <br>
+
 Start Time:<%=@poll.created_at%>
 <br>
+
 End Time:<%=@poll.end_time%>
 <br>
+
 <%t=((@poll.end_time - @poll.created_at)).to_i%>
+<%left=((@poll.end_time - Time.now )).to_i%>
+
 Time Limit:
-days: <%=(t/3600)/24%>
-hours: <%=(t/3600)%24%>
-minute: <%=(t/60)%60%>
-seconds: <%=t%60%>
-<%= countdown @poll.created_at + @poll.end_time %>
+<br>
+
+days: <span><%=(t/3600)/24%></span>
+hours: <span><%=(t/3600)%24%></span>
+minutes: <span><%=(t/60)%60%></span>
+seconds: <span><%=t%60%></span>
+
+<br>
+
+Time left:
+<br>
+<sapn id="days"></sapn>
+<sapn id="hours"></sapn>
+<sapn id="minutes"></sapn>
+<sapn id="seconds"></sapn>
+<div id="countdownTimer">check</div>
+<%#= countdown @poll.created_at + @poll.end_time %>
+
+
+
+Options:
+
 <%if voter_signed_in?%>
 	<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: @poll.id).nil?%>
 		<%options.each do |o|%>
@@ -35,7 +59,93 @@ seconds: <%=t%60%>
 	<%end%>
 <%end%>
 
+
+
+
+<%#= social_share_button_tag(@poll.title + "\nCast your vote here:",:url=>request.original_url) %>
+<%#= render_shareable %>
+Link:<br>
+<input type="text" name="link" value="<%=request.original_url%>" readonly="readonly" style="
+    width: 300px;">
+    <br>
+Share:<br>
+<%= social_share_button_tag(@poll.title, :url =>request.original_url) %>
+<br>
+
+<!-- 
+<a href="javascript:fbShare('<%=request.original_url%>', 'Fb Share', 'Facebook share popup', 'http://goo.gl/dS52U', 520, 350)">Share</a> -->
 Analysis:
 <br>
 <%=render 'home/analysis',poll:@poll%>
 <br>
+
+
+
+
+
+
+
+<script type="text/javascript">
+	var timer= document.getElementById("countdownTimer");
+	// var days=document.getElementById("days");
+	// var hours=document.getElementById("hours");
+	// var minutes=document.getElementById("minutes");
+	// var seconds=document.getElementById("seconds");
+var days= <%=((left/3600)/24)%>;
+var hours=<%=(left/3600)%24%>;
+var minutes=<%=(left/60)%60%>;
+var seconds=<%=left%60%>;
+timer.innerText = (days + ":" + hours + ":" + minutes +":" + seconds);
+if(<%=left>0%>){
+timerCheck=setInterval(down,1000);
+
+function down()
+{
+
+	
+	if(seconds==0)
+	{
+		
+		if(minutes==0)
+		{
+			
+			if(hours==0)
+			{
+				days=days-1;
+				hours=23;
+				minutes=59;
+			}else
+			{
+				hours=hours-1;
+				minutes=59;
+			}
+		}else
+		{
+			minutes=minutes-1;
+		}
+		seconds=59;
+	}
+	else
+	{
+		seconds=seconds-1;
+	}
+timer.innerText = (days + ":" + hours + ":" + minutes+":" + seconds);
+if(seconds==0&&minutes==0&&hours==0&&days==0)
+{
+	clearInterval(timerCheck);
+	timer.innerText = ("--"+ ":" + "--" + ":" + "--"+":" + "--");
+}
+}
+}
+else
+	timer.innerText = ("--"+ ":" + "--" + ":" + "--"+":" + "--");
+
+
+
+    // function fbShare(url, title, descr, image, winWidth, winHeight) {
+    //     var winTop = (screen.height / 2) - (winHeight / 2);
+    //     var winLeft = (screen.width / 2) - (winWidth / 2);
+    //     window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + '<%=@poll.title%>' + '&p[url]=' + '<%=request.original_url%>' + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
+    // }
+
+</script>
