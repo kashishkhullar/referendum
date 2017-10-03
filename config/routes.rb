@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'notifications/get_notifications'
+
+  post 'notifications/read'
+
   post 'votes/create'
 
   get 'options/create'

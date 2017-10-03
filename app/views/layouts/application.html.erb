@@ -13,7 +13,11 @@
     <%= text_field_tag :search, params[:search], placeholder: "Search Poll",data: {autocomplete: autocomplete_poll_title_home_index_path} %>
     <%= submit_tag "Search" %>
 <% end %>
-
+<script type="text/javascript">
+<%if voter_signed_in?%>
+	var current_voter_id=<%=current_voter.id%>
+<%end%>
+</script>
 </head>
 
 <body>

@@ -1,0 +1,77 @@
+$('document').ready(function()
+{
+	console.log(document.URL);
+
+	var get_notifications=function()
+	{
+		
+  var id = current_voter_id;
+
+		
+		$.ajax({
+			url:'/notifications/get_notifications',
+			type: 'GET',
+			dataType: 'json',
+			data: {
+				voter_id:id,
+			},
+			success: function(data)
+			{
+				//console.log(data);
+				
+				var count = data.notifications.length;
+				// console.log(data);
+				// console.log(data.notifications);
+				// console.log(data.notifications[0]);
+				// console.log(data.notifications[0].id);
+				//console.log($('div#notifications' + '>a#'+ data.notifications[i].id));
+				for(var i=0;i<count;i++)
+				{
+					//console.log(data.notifications[i].id);
+					//console.log($('a#'+ data.notifications[i].id).length)
+					if($('a#'+ data.notifications[i].id).length==0)
+						{
+							//console.log($('#'+ data.notifications[i].id).length);
+							
+
+
+							$('#notifications').append("<a  href='http://localhost:3000" +data.notifications[i].link +"' id="+"'"+data.notifications[i].id+"'>"+ data.notifications[i].message + "</a><br>");
+
+							$('a#'+ data.notifications[i].id).on('click',function(event)
+							{
+
+								
+								console.log("in the read func");
+								$.ajax({
+
+									url:'/notifications/read',
+									type:'POST',
+									data: {
+										notification_id: this.id
+									},
+									success:function()
+									{
+										console.log("here i am");
+									}
+
+
+								});
+								this.remove();
+								
+							});
+						}
+				}
+			// 	console.log($('div#notifications' + ' a#'+ data.notifications[0].id));
+			// console.log($('div#notifications' + ' a#'+ data.notifications[1].id));
+			
+			}
+		});
+	}
+
+	setInterval(get_notifications,5000);
+
+
+
+
+
+});

@@ -4,10 +4,15 @@
 <%=link_to "logout",destroy_voter_session_path,method: :delete%>
 <%=link_to "profile",home_profile_path,method: :get%>
 <%else%>
-<%=link_to "Signin",new_voter_session_path,method: :get%>
+<%=link_to "Signin",new_voter_session_path%>
 
 <%end%>
+<div id="notificationbox">Notifications</div>
+<div id="notifications"></div>
 <br>
+
+<div id="check"><p id="123">abc</p></div>
+<
 <%if @search.nil?%>
 	Create a new poll:
 	<%=form_for @poll,url: polls_create_path do |p|%>
