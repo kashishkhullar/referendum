@@ -50,9 +50,10 @@ class PollsController < ApplicationController
   	# 	option.poll_id=poll.id
   	# 	option.save!
   	# end
-  	
-
-  	redirect_to '/home/index'
+    respond_to do |format|
+      format.html{ redirect_to '/home/index' , notice: "Poll was successfully created. Check your profile to see your poll."}
+      format.js {}
+    end
   end
 
   def edit

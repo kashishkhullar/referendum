@@ -20,6 +20,7 @@ $('document').ready(function()
 				//console.log(data);
 				
 				var count = data.notifications.length;
+				$('#notificationbox').html('Notifications ' + count);
 				// console.log(data);
 				// console.log(data.notifications);
 				// console.log(data.notifications[0]);
@@ -63,12 +64,14 @@ $('document').ready(function()
 				}
 			// 	console.log($('div#notifications' + ' a#'+ data.notifications[0].id));
 			// console.log($('div#notifications' + ' a#'+ data.notifications[1].id));
+
 			
 			}
 		});
 	}
 
-	setInterval(get_notifications,5000);
+	setInterval(get_notifications,4000);
+
 
 
 

@@ -16,33 +16,63 @@
 //= require autocomplete-rails
 //= require social-share-button
 //= require social-share-button/wechat
+//= require jquery.noty.packaged.js
 //= require turbolinks
 //= require_tree .
 
 
-$("document").ready(function(){
 
-	////// NOTIFICATION BOX////////
-	var notiVisible=false;
-	$("#notificationbox").click(function(event)
-		{
-			event.stopPropagation();
-			if(!notiVisible){
-				notiVisible=true;
-			$("#notifications").children().toggle();
-		}
-		else{
-			$("#notifications").children().hide();
-			notiVisible=false;
-		}
-	});
-	$('body').click(function() {
-		if(notiVisible){
-			$("#notifications").children().hide();
-			notiVisible=false;
-		}
+$('document').ready(function()
+{
+///////Jquery for notifications hide and show////////////
+
+	$('div#read_all').on('click',function(event)
+	{
+		console.log(" i am here ");
+		$.ajax({
+			url:'/notifications/read_all',
+			type: 'POST',
+			data: {
+				voter_id:current_voter_id,
+			},
+			success: function()
+			{
+				
+				$('div#notificationbox').html('Notifications');
+				$('div#notifications').html('');
+				console.log($('#notificationbox'));
+				//$('#notifications').children().remove();
+			}
+			});
 
 	});
+
+
+// $("document").ready(function(){
+
+// 	////// NOTIFICATION BOX////////
+// 	var notiVisible=false;
+// 	$("#notificationbox").click(function(event)
+// 		{
+// 			event.stopPropagation();
+// 			if(!notiVisible){
+// 				notiVisible=true;
+// 			$("#notifications").children().toggle();
+// 		}
+// 		else{
+// 			$("#notifications").children().hide();
+// 			notiVisible=false;
+// 		}
+// 	});
+// 	$('body').click(function() {
+// 		if(notiVisible){
+// 			$("#notifications").children().hide();
+// 			notiVisible=false;
+// 		}
+
+// 	});
+// });
+// /////////////////////////////////////////////////////////
 	////////////////////////////////
 	// $("a").click(function(event)
 	// {
@@ -66,10 +96,13 @@ $("document").ready(function(){
  // });
 
 
-});
+
 
 // $( "a" ).click(function( event ) {
 //   event.preventDefault();
 //   $( "<div>" )
 //     .append( "default " + event.type + " prevented" )
 //     .appendTo( "#log" );
+//////////////////////////////////////////////////////////
+
+});

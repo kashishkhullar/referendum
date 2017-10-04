@@ -41,9 +41,9 @@ Time left:
 <div id="countdownTimer">check</div>
 <%#= countdown @poll.created_at + @poll.end_time %>
 
+<div id="options_to_poll">
 
 
-Options:
 
 <%if voter_signed_in?%>
 	<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: @poll.id).nil?%>
@@ -59,7 +59,7 @@ Options:
 	<%end%>
 <%end%>
 
-
+</div>
 
 
 <%#= social_share_button_tag(@poll.title + "\nCast your vote here:",:url=>request.original_url) %>

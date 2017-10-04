@@ -1,7 +1,7 @@
 
 	<div id="option_<%=option.id%>">
 	<%if voter_signed_in?%>
-	<%=form_for @vote,url:votes_create_path do |v|%>
+	<%=form_for @vote,url:votes_create_path,remote: true do |v|%>
 	
 	<%=v.hidden_field :option_id,:value=> option.id%>
 	<%=v.hidden_field :poll_id,:value=> option.poll.id%>

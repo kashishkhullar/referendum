@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   get 'notifications/get_notifications'
 
+  post '/notifications/read_all'
+
   post 'notifications/read'
 
   post 'votes/create'
@@ -30,6 +32,7 @@ Rails.application.routes.draw do
 
   devise_for :voters,controllers: {
     registrations: 'voters/registrations'
+
   }
   
   root to: 'home#index'

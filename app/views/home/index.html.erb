@@ -7,15 +7,15 @@
 <%=link_to "Signin",new_voter_session_path%>
 
 <%end%>
-<div id="notificationbox">Notifications</div>
+<div id="notificationbox">Notifications 0</div>
+<div id="read_all">Mark all as read</div>
 <div id="notifications"></div>
 <br>
 
-<div id="check"><p id="123">abc</p></div>
-<
+
 <%if @search.nil?%>
 	Create a new poll:
-	<%=form_for @poll,url: polls_create_path do |p|%>
+	<%=form_for @poll,url: polls_create_path, remote: true do |p|%>
 	<%= p.label :Title%>
 	<%= p.text_area :title%>
 	<%= p.label :Content%>

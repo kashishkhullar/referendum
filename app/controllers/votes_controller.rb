@@ -9,7 +9,11 @@ class VotesController < ApplicationController
           notification.message="New vote on your poll: #{Poll.find(vote.poll_id).title}."
           notification.link="/polls/view/#{vote.poll_id}"
           notification.save!
-  	redirect_to '/home/index'
+        respond_to do |format|
+      format.html{ redirect_to '/home/index' , notice: "Thank You For Voting!"}
+      format.js {}
+    end
+  	
 
   end
 

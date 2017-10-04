@@ -27,6 +27,17 @@ class NotificationsController < ApplicationController
 
 	end
 
+	def read_all
+		voter_id=params["voter_id"]
+		notifications = Notification.where(voter_id: voter_id) 
+		notifications.each do |n|
+			n.destroy!
+		end
+		data={}
+
+	return render json: data ,status: 200
+	end
+
 
 
 
