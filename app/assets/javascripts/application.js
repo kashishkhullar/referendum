@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require autocomplete-rails
+//= require bootstrap.min.js
 //= require social-share-button
 //= require social-share-button/wechat
 //= require jquery.noty.packaged.js
@@ -38,14 +39,24 @@ $('document').ready(function()
 			success: function()
 			{
 				
-				$('div#notificationbox').html('Notifications');
-				$('div#notifications').html('');
+				$('div#notificationbox').html('Notifications <span class="badge">0</span><span class="caret"></span>');
+				$('div#notifications').html('<li>No Notifications</li><li role="separator" class="divider"></li>');
 				console.log($('#notificationbox'));
 				//$('#notifications').children().remove();
 			}
 			});
 
 	});
+
+$(".ui-helper-hidden-accessible").remove();
+
+// 	$("#find-subj").autocomplete({
+//     source: availableTags,
+//     messages: {
+//         noResults: '',
+//         results: function() {}
+//     }
+// });
 
 
 // $("document").ready(function(){

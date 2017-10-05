@@ -1,5 +1,4 @@
-$('document').ready(function()
-{
+$('document').ready(function(){
 	console.log(document.URL);
 
 	var get_notifications=function()
@@ -20,7 +19,7 @@ $('document').ready(function()
 				//console.log(data);
 				
 				var count = data.notifications.length;
-				$('#notificationbox').html('Notifications ' + count);
+				$('#notificationbox').html('Notifications ' + '<span class="badge">'+ count + '</span><span class="caret"></span>');
 				// console.log(data);
 				// console.log(data.notifications);
 				// console.log(data.notifications[0]);
@@ -33,10 +32,12 @@ $('document').ready(function()
 					if($('a#'+ data.notifications[i].id).length==0)
 						{
 							//console.log($('#'+ data.notifications[i].id).length);
+
+							$('#notifications').html('');
 							
 
 
-							$('#notifications').append("<a  href='http://localhost:3000" +data.notifications[i].link +"' id="+"'"+data.notifications[i].id+"'>"+ data.notifications[i].message + "</a><br>");
+							$('#notifications').prepend("<a  href='http://localhost:3000" +data.notifications[i].link +"' id="+"'"+data.notifications[i].id+"'>"+ data.notifications[i].message + "</a><li role='separator' class='divider'></li>");
 
 							$('a#'+ data.notifications[i].id).on('click',function(event)
 							{
@@ -64,7 +65,6 @@ $('document').ready(function()
 				}
 			// 	console.log($('div#notifications' + ' a#'+ data.notifications[0].id));
 			// console.log($('div#notifications' + ' a#'+ data.notifications[1].id));
-
 			
 			}
 		});
@@ -73,7 +73,17 @@ $('document').ready(function()
 	setInterval(get_notifications,4000);
 
 
+var total_options=2;
+$('#add_more_options').on('click',function()
+{
+	total_options=total_options+1;
+	
+	//<textarea class="form-control" placeholder="Add some text here" name="poll[option_1]" id="poll_option_1"></textarea>
+	$('#new_poll_options').append('<div class="input-group input-group-sm"><label class="input-group-addon" for="poll_1">'+ total_options +  ':</label><textarea class="form-control" placeholder="Add some text here" name ="poll[option_"' +total_options +"]" + 'id="poll_option_"' + total_options +'></textarea></div>' );
+	if(total_options==5)
+		$('#add_more_options').remove();
 
+});
 
 
 

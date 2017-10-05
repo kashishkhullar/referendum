@@ -60,7 +60,7 @@ class HomeController < ApplicationController
   end
 
   def getLatest
-    @all_polls.order(created_at: :asc)
+    @all_polls.order(created_at: :desc)
   end
 
 end

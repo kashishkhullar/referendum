@@ -39,6 +39,7 @@ Time left:
 <sapn id="minutes"></sapn>
 <sapn id="seconds"></sapn>
 <div id="countdownTimer">check</div>
+<div id="countdownTimer_<%=@poll.id%>" >check</div>
 <%#= countdown @poll.created_at + @poll.end_time %>
 
 <div id="options_to_poll">
@@ -86,7 +87,11 @@ Analysis:
 
 
 <script type="text/javascript">
-	var timer= document.getElementById("countdownTimer");
+
+$(document).ready(function(){
+//clearInterval(timerCheck);
+//	var timer = document.getElementById("countdownTimer_" + <%=@poll.id%>);
+ var timer=$("#countdownTimer_" + <%=@poll.id%>).unbind();
 	// var days=document.getElementById("days");
 	// var hours=document.getElementById("hours");
 	// var minutes=document.getElementById("minutes");
@@ -95,7 +100,7 @@ var days= <%=((left/3600)/24)%>;
 var hours=<%=(left/3600)%24%>;
 var minutes=<%=(left/60)%60%>;
 var seconds=<%=left%60%>;
-timer.innerText = (days + ":" + hours + ":" + minutes +":" + seconds);
+timer.text(days + ":" + hours + ":" + minutes +":" + seconds);
 if(<%=left>0%>){
 timerCheck=setInterval(down,1000);
 
@@ -129,7 +134,7 @@ function down()
 	{
 		seconds=seconds-1;
 	}
-timer.innerText = (days + ":" + hours + ":" + minutes+":" + seconds);
+timer.text(days + ":" + hours + ":" + minutes+":" + seconds);
 if(seconds==0&&minutes==0&&hours==0&&days==0)
 {
 	clearInterval(timerCheck);
@@ -141,7 +146,7 @@ else
 	timer.innerText = ("--"+ ":" + "--" + ":" + "--"+":" + "--");
 
 
-
+});
     // function fbShare(url, title, descr, image, winWidth, winHeight) {
     //     var winTop = (screen.height / 2) - (winHeight / 2);
     //     var winLeft = (screen.width / 2) - (winWidth / 2);

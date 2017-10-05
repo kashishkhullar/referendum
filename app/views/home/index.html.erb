@@ -1,76 +1,221 @@
+<div class="container">
+<div class="page-header">
 <h1>Welcome To Referendum</h1>
-<%if voter_signed_in?%>
-<h1>Hello <%=current_voter.username%></h1>
-<%=link_to "logout",destroy_voter_session_path,method: :delete%>
-<%=link_to "profile",home_profile_path,method: :get%>
-<%else%>
-<%=link_to "Signin",new_voter_session_path%>
+<small>Create your own custom polls and share with your friends!!</small>
+</div>
+</div>
 
-<%end%>
-<div id="notificationbox">Notifications 0</div>
-<div id="read_all">Mark all as read</div>
-<div id="notifications"></div>
-<br>
 
 
 <%if @search.nil?%>
-	Create a new poll:
+<div class="container">
+	<div class="page-header"><h3>Create a new poll:</h3></div>
 	<%=form_for @poll,url: polls_create_path, remote: true do |p|%>
-	<%= p.label :Title%>
-	<%= p.text_area :title%>
-	<%= p.label :Content%>
-	<%= p.text_area :content%>
-	<%= p.check_box :private%>
-	<%= p.label :Private%>
-	<br>
-	Add time limit:
-	<%= p.label :"Days"%>
-	<%= p.number_field :days%>
-	<%= p.label :"Hours"%>
-	<%= p.number_field :hours%>
-	<br>
-	Add poll options(at max 5 allowed):
-	<%= p.text_area :option_1%>
-	<br>
-	<%= p.text_area :option_2%><br>
-	<%= p.text_area :option_3%><br>
-	<%= p.text_area :option_4%><br>
-	<%= p.text_area :option_5%><br>
-	<%= p.submit "Create Poll"%>
+	<div class="input-group input-group-sm">
+        <%= p.label :Title, "Title:", class: "input-group-addon" %>
+        <%= p.text_area :title, class: "form-control",placeholder: "Title for your poll" %>
+    </div>
+    <div class="input-group input-group-sm">
+        <%= p.label :Content, "Description:", class: "input-group-addon" %>
+        <%= p.text_area :content, class: "form-control",placeholder: "Description for your poll" %>
+    </div>
+
+	<div class="page-header"><h4>Add time limit:</h4></div>
+	<div class="input-group input-group-sm">
+        <%= p.label :Days, "Days:", class: "input-group-addon"%>
+        <%= p.number_field :days, class: "form-control",placeholder: "Days upto which your poll will be active" %>
+    </div>
+    
+    <div class="input-group input-group-sm">
+        <%= p.label :Hours, "Hours:", class: "input-group-addon" %>
+        <%= p.number_field :hours, class: "form-control",placeholder: "Hours upto which your poll will be active"  %>
+    </div>
+	<div class="page-header"><h4>Add poll options(at max 5 allowed):</h4></div>
+	
+	<div id="new_poll_options">
+	<div class="input-group input-group-sm">
+	<%= p.label :"1", "1:", class: "input-group-addon" %>
+	<%= p.text_area :option_1,class: "form-control",placeholder: "Add some text here"%>
+	</div>
+		<div class="input-group input-group-sm">
+
+	<%= p.label :"1", "2:", class: "input-group-addon" %>
+	<%= p.text_area :option_2,class: "form-control",placeholder: "Add some text here"%>
+	</div>
+	</div>
+	
+	<input type="button" id="add_more_options" value="+" class="btn btn-lg col-xs-12">
+	<%#= p.text_area :option_3%>
+	<%#= p.text_area :option_4%>
+	<%#= p.text_area :option_5%>
+	<div class="form-check-inline">
+	<h4><%=p.check_box :private%> <label class="form-check-label">Private </label></h4><small>*Private polls are not visible in search results.</small>
+	
+	</div>
+	<%= p.submit "Create Poll",class:" btn btn-lg btn-success col-xs-12"%>
 	<%end%>
+</div>
 	<br>
 	<br>
-	<h3>All polls:</h3>
+	<!-- <h3>All polls:</h3>
 	<ol id ="polls">
-	<%@all_polls.each do |poll|%>
+	<%#@all_polls.each do |poll|%>
 	<li>
-	<a href="/polls/view/<%=poll.id%>">
-	<%=render 'poll',poll:poll%>
+	<a href="/polls/view/<%#=poll.id%>">
+	<%#=render 'poll',poll:poll%>
 	</a>
 	<br>
 	</li>
-	<%end%>
-	</ol>
+	<%#end%>
+	</ol> -->
+
+	<div class="container">
+		<ul class="nav nav-tabs">
+			<li class="active"><a data-toggle="tab" href="#top10">Top 10 Polls</a></li>
+			<li><a data-toggle="tab" href="#latest10">Latest 10 Polls</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div id="top10" class="tab-pane fade in active ">
+				<div id ="top10polls">
+					<%@top.each do |poll|%>
+						<div class="jumbotron">
+						<a href="/polls/view/<%=poll.id%>"><input type="button" value="View Poll" class="btn btn-md btn-success pull-right"></button> </a>
+						<%#=render 'poll',poll:poll%>
+							<a href="#top_poll_<%=poll.id%>" data-toggle="collapse"><div class="container"><h4><%=poll.title%></h4></div></a>
+
+										<div id = "top_poll_<%=poll.id%>" class="collapse container">
+										<br>
+										<h5><%=poll.content%>
+										<small> <%=pluralize(poll.votes.length,'vote')%> on this poll</small>
+										<br>
+										</h5>
+										<%@all_votes.where(poll_id:poll.id).length%>
+										<%if Time.now<poll.end_time%>
+										<%options=@all_options.where(poll_id: poll.id)%>
+										<%#if voter_signed_in? && @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
+										<%#options.each do |o|%>
+										<%#=render 'option',option:o%>
+										<%#end%>
+										<%#elsif voter_signed_in?%>
+										<!-- thank you for voting!<br> -->
+										<%#else%>
+										<%#options.each do |o|%>
+										<%#=render 'option',option:o%>
+										<%#end%>
+										<%#end%>
+											<%if voter_signed_in?%>
+												<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
+													<%options.each do |o|%>
+														<%=render 'option',option:o%>
+													<%end%>
+												<%else%>
+												<span class="label label-success">thank you for voting!</span>
+												
+												<%end%>
+											<%else%>
+												<%options.each do |o|%>
+													<%=render 'option',option:o%>
+												<%end%>
+											<%end%>
+											<span class="label label-info">Active</span>
+										<%else%>
+										<span class="label label-danger">The poll has ended!</span>
+
+										<%end%>
+										</div>
+						
+						</div>
+
+					<%end%>
+				</div>
+			</div>
+			<div id="latest10" class="tab-pane fade">
+				<div id ="latest10polls">
+					<%@latest.each do |poll|%>
+						<div class="jumbotron">
+						<a href="/polls/view/<%=poll.id%>"><input type="button" value="View Poll" class="btn btn-md btn-success pull-right"></button> </a>
+						<%#=render 'poll',poll:poll%>
+						<a href="#latest_poll_<%=poll.id%>" data-toggle="collapse">
+								<div class="container">
+								<h4><%=poll.title%></h4>
+								</div></a>
+
+								<div id = "latest_poll_<%=poll.id%>" class="collapse container">
+								<br>
+								<h5><%=poll.content%>
+								<small> <%=pluralize(poll.votes.length,'vote')%> on this poll</small>
+								<br>
+								</h5>
+								<%@all_votes.where(poll_id:poll.id).length%>
+								<%if Time.now<poll.end_time%>
+								<%options=@all_options.where(poll_id: poll.id)%>
+								<%#if voter_signed_in? && @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
+								<%#options.each do |o|%>
+								<%#=render 'option',option:o%>
+								<%#end%>
+								<%#elsif voter_signed_in?%>
+								<!-- thank you for voting!<br> -->
+								<%#else%>
+								<%#options.each do |o|%>
+								<%#=render 'option',option:o%>
+								<%#end%>
+								<%#end%>
+									<%if voter_signed_in?%>
+										<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
+											<%options.each do |o|%>
+												<%=render 'option',option:o%>
+											<%end%>
+										<%else%>
+										<span class="label label-success">thank you for voting!</span>
+										
+										<%end%>
+									<%else%>
+										<%options.each do |o|%>
+											<%=render 'option',option:o%>
+										<%end%>
+									<%end%>
+									<span class="label label-info">Active</span>
+								<%else%>
+								<span class="label label-danger">The poll has ended!</span>
+
+								<%end%>
+								</div>
+
+
+
+
+						
+						</div>
+
+					<%end%>
+				</div>
+			</div>
+		</div>
+
+	</div>
+<!-- 
+
 	<h3>Top polls:</h3>
 	<ol id ="polls">
-	<%@top.each do |poll|%>
+	<%#@top.each do |poll|%>
 	<li>
-	<%=render 'poll',poll:poll%>
-	<br><%=poll.votes.length%>
+	<%#=render 'poll',poll:poll%>
+	<br><%#=poll.votes.length%>
 	<br>
 	</li>
-	<%end%>
+	<%#end%>
 	</ol>
 	<h3>Latest Polls</h3>
 	<ol id ="polls">
-	<%@latest.each do |poll|%>
+	<%#@latest.each do |poll|%>
 	<li>
-	<%=render 'poll',poll:poll%>
-	<br><%=poll.votes.length%>
+	<%#=render 'poll',poll:poll%>
+	<br><%#=poll.votes.length%>
 	<br>
 	</li>
-	<%end%>
-	</ol>
+	<%#end%>
+	</ol> -->
 <%else%>
 	<h3>Search Result Found: <%=@search_count%></h3>
 	<%= will_paginate @search %>

@@ -1,4 +1,4 @@
-/*
+/*/*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
  *
@@ -12,5 +12,89 @@
  *
  *= require_tree .
  *= require social-share-button
+ *= require bootstrap.min.css
  *= require_self
  */
+
+.ui-autocomplete {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100000;
+  float: left;
+  display: none;
+  
+  min-width: 160px;
+  _width: 160px;
+  padding: 10px;
+  padding-bottom: 20px;
+ margin: 2px 0 0 0;
+ cursor: pointer;
+ font-family: elephant;
+  list-style: none;
+  background-color:white;
+   	padding: 10px;
+  
+  border-color: #ccc;
+  //border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  //border-width: 1px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  //border-radius: 5px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+
+ 
+  .ui-menu-item > a.ui-corner-all {
+  		background-color:white;
+   	padding: 10px;
+    display: block;
+    padding: 15px;
+    margin-bottom: 10px;
+    clear: both;
+    font-weight: normal;
+    line-height: 18px;
+    color: #ffffff;
+    white-space: nowrap;
+ 
+
+
+  
+
+  }
+}
+    .ui-widget-content .ui-state-focus {
+      
+      text-decoration: none;
+      background-color: green;
+      border-radius: 0px;
+      -webkit-border-radius: 0px;
+      -moz-border-radius: 0px;
+      background-image: none;
+      
+    }
+
+    .ui-helper-hidden-accessible{
+    	display: none;
+    }
+
+   
+   .ui-menu-item-wrapper
+   {
+   	padding:10px;
+  
+
+   }
+   .ui-menu-item:hover
+   {
+   	
+   	background-color:#F8F8F8;
+   }
+*/
