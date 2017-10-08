@@ -1,97 +1,124 @@
-<h1>Polls#view</h1>
-<p>Find me in app/views/polls/view.html.erb</p>
-
-<%options=@all_options.where(poll_id: @poll.id)%>
-
-Title:
-<br>
-<%=@poll.title%>
-<br>
-
-Content:
-<br>
-<%=@poll.content%>
-<br>
-
-Start Time:<%=@poll.created_at%>
-<br>
-
-End Time:<%=@poll.end_time%>
-<br>
-
 <%t=((@poll.end_time - @poll.created_at)).to_i%>
 <%left=((@poll.end_time - Time.now )).to_i%>
+<div class="container">
 
-Time Limit:
+<div class="page-header">
+<div class="pull-right">
+by <%=@poll.voter.username%>
+<%options=@all_options.where(poll_id: @poll.id)%>
+
+ , <%=@poll.created_at.to_formatted_s(:long_ordinal)%>
+<br>
+Valid till : <%=@poll.end_time.to_formatted_s(:long_ordinal)%>
+
+<%if left>0%>
+<br>
+<span class="label label-info">Active</span>
+<%else%>
+<br>
+<span class="label label-danger">The poll has ended!</span>
+<%end%>
+</div>
+<h1><%=@poll.title%></h1>
+
+<small><%=@poll.content%></small>
+<br>
+</div>
+<h2 id="countdownTimer_<%=@poll.id%>" class="pull-right jumbotron"></h2>
+
+
+
+<%if left<0%>
+<%max=-1%>
+<%oname=""%>
+<%options.each do |o|%>
+
+<% if o.votes.length>max%>
+<% max=o.votes.length%>
+<%oname=o.name%>
+<%end%>
+<%end%>
+<div class="jumbotron">
+<h2><%=oname%>  won the poll by recieving <%=pluralize(@poll.votes.length,'vote')%></h2>
+</div>
+<%end%>
+
+<!-- Time Limit:
 <br>
 
-days: <span><%=(t/3600)/24%></span>
-hours: <span><%=(t/3600)%24%></span>
-minutes: <span><%=(t/60)%60%></span>
-seconds: <span><%=t%60%></span>
+days: <span><%(t/3600)/24%></span>
+hours: <span><%(t/3600)%24%></span>
+minutes: <span><%(t/60)%60%></span>
+seconds: <span><%t%60%></span> -->
 
-<br>
+<!-- <br>
 
 Time left:
 <br>
 <sapn id="days"></sapn>
 <sapn id="hours"></sapn>
 <sapn id="minutes"></sapn>
-<sapn id="seconds"></sapn>
-<div id="countdownTimer">check</div>
-<div id="countdownTimer_<%=@poll.id%>" >check</div>
+<sapn id="seconds"></sapn> -->
+<!-- <div id="countdownTimer">check</div>
+ -->
+
 <%#= countdown @poll.created_at + @poll.end_time %>
 
-<div id="options_to_poll">
+<div id="options_to_poll" class="container">
+
+
 
 
 
 <%if voter_signed_in?%>
 	<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: @poll.id).nil?%>
+	<p>Cast Your Vote :</p>
 		<%options.each do |o|%>
 			<%=render 'home/option',option:o%>
+			<%#=o.name%>
 		<%end%>
 	<%else%>
-	thank you for voting!<br>
+	<h3><div class="label label-success">Thank you for voting!</div></h3>
 	<%end%>
 <%else%>
+<p>Sign In To Cast Your Vote :</p>
 	<%options.each do |o|%>
 		<%=render 'home/option',option:o%>
 	<%end%>
 <%end%>
 
-</div>
+
 
 
 <%#= social_share_button_tag(@poll.title + "\nCast your vote here:",:url=>request.original_url) %>
 <%#= render_shareable %>
-Link:<br>
+<br>
+<h4>Share Poll's Link:</h4>
 <input type="text" name="link" value="<%=request.original_url%>" readonly="readonly" style="
     width: 300px;">
-    <br>
-Share:<br>
+<br>
+<br>
+<div class="share">
 <%= social_share_button_tag(@poll.title, :url =>request.original_url) %>
+</div>
 <br>
 
 <!-- 
-<a href="javascript:fbShare('<%=request.original_url%>', 'Fb Share', 'Facebook share popup', 'http://goo.gl/dS52U', 520, 350)">Share</a> -->
-Analysis:
+<a href="javascript:fbShare('<%#=request.original_url%>', 'Fb Share', 'Facebook share popup', 'http://goo.gl/dS52U', 520, 350)">Share</a> -->
+<div class="page-header"><h2>Analysis</h2><small> Total <%=pluralize(@poll.votes.length,'vote')%> on this poll</small></div>
 <br>
 <%=render 'home/analysis',poll:@poll%>
 <br>
-
-
-
-
-
-
-
+</div>
+</div>
 <script type="text/javascript">
 
-$(document).ready(function(){
+
+//$(document).ready(function(){
 //clearInterval(timerCheck);
 //	var timer = document.getElementById("countdownTimer_" + <%=@poll.id%>);
- var timer=$("#countdownTimer_" + <%=@poll.id%>).unbind();
+ var countdown=$("#countdownTimer_" + <%=@poll.id%>).unbind();
+ console.log(countdown);
 	// var days=document.getElementById("days");
 	// var hours=document.getElementById("hours");
 	// var minutes=document.getElementById("minutes");
@@ -100,53 +127,56 @@ var days= <%=((left/3600)/24)%>;
 var hours=<%=(left/3600)%24%>;
 var minutes=<%=(left/60)%60%>;
 var seconds=<%=left%60%>;
-timer.text(days + ":" + hours + ":" + minutes +":" + seconds);
-if(<%=left>0%>){
-timerCheck=setInterval(down,1000);
+//countdown.html("00:00:00:00");
 
-function down()
+if(<%=left>0%>)
 {
+	countdown.html("" + days + ":" + hours + ":" + minutes+":" + seconds);
+			timerCheck=setInterval(down,1000);
 
-	
-	if(seconds==0)
-	{
-		
-		if(minutes==0)
-		{
-			
-			if(hours==0)
+			function down()
 			{
-				days=days-1;
-				hours=23;
-				minutes=59;
-			}else
+
+				
+				if(seconds==0)
+				{
+					
+					if(minutes==0)
+					{
+						
+						if(hours==0)
+						{
+							days=days-1;
+							hours=23;
+							minutes=59;
+						}else
+						{
+							hours=hours-1;
+							minutes=59;
+						}
+					}else
+					{
+						minutes=minutes-1;
+					}
+					seconds=59;
+				}
+				else
+				{
+					seconds=seconds-1;
+				}
+			countdown.html("" + days + ":" + hours + ":" + minutes+":" + seconds);
+			if((seconds==0&&minutes==0&&hours==0&&days==0) || <%=left%><0)
 			{
-				hours=hours-1;
-				minutes=59;
+				clearInterval(timerCheck);
+				countdown.html("--"+ ":" + "--" + ":" + "--"+":" + "--");
 			}
-		}else
-		{
-			minutes=minutes-1;
-		}
-		seconds=59;
-	}
-	else
-	{
-		seconds=seconds-1;
-	}
-timer.text(days + ":" + hours + ":" + minutes+":" + seconds);
-if(seconds==0&&minutes==0&&hours==0&&days==0)
-{
-	clearInterval(timerCheck);
-	timer.innerText = ("--"+ ":" + "--" + ":" + "--"+":" + "--");
-}
-}
+			}
 }
 else
-	timer.innerText = ("--"+ ":" + "--" + ":" + "--"+":" + "--");
+	countdown.html("--"+ ":" + "--" + ":" + "--"+":" + "--");
 
 
-});
+//});
     // function fbShare(url, title, descr, image, winWidth, winHeight) {
     //     var winTop = (screen.height / 2) - (winHeight / 2);
     //     var winLeft = (screen.width / 2) - (winWidth / 2);

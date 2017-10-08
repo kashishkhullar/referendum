@@ -1,33 +1,97 @@
-Hi <%=current_voter.username%>!
-<%=link_to 'edit profile',edit_voter_registration_path,method: :get%>
-<br>
-Your Active polls:
-<br>
-<br>
-<ul id ="polls">
-<%@active_polls.each do |poll|%>
-Title: <%=poll.title%><br>
-Content: <%=poll.content%><br>
-End Date and time: <%=poll.end_time%><br>
+<div class="container">
+<div class="page-header">
 
-<%=render 'analysis',poll:poll%>
+<%#=link_to 'edit profile',edit_voter_registration_path,method: :get%><a href="/voters/edit">
+<input type="button" name="edit profile" value="Edit Profile" class="pull-right btn btn-default"></a>
 
-<br>
-<br>
-<%end%>
-</ul>
-Your ended polls:
-<br>
-<br>
-<ul id ="polls">
-<%@ended_polls.each do |poll|%>
-Title: <%=poll.title%><br>
-Content: <%=poll.content%><br>
-End Date and time: <%=poll.end_time%><br>
+<h2>Hi <%=current_voter.username%>!</h2>
 
-<%=render 'analysis',poll:poll%>
+</div>
 
-<br>
-<br>
-<%end%>
-</ul>
+	<div class="container">
+		<ul class="nav nav-tabs">
+			<li class="active"><a data-toggle="tab" href="#active">Your Active Polls</a></li>
+			<li><a data-toggle="tab" href="#ended">Your Inactive Polls</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div id="active" class="tab-pane fade in active ">
+				<div id ="activePolls">
+					<%@active_polls.each do |poll|%>
+						<div class="jumbotron">
+						<div id="viewDelete">
+						<%=form_tag("/polls/destroy",method:"delete") do %>
+							<%=hidden_field_tag "poll_id", poll.id%>
+							<%=submit_tag "Delete Poll",data: {confirm: "Are you sure you want to delete your poll : #{poll.title}?"},class:"btn btn-md btn-danger pull-right"%>
+							<%end%>
+						<a href="/polls/view/<%=poll.id%>"><input type="button" value="View Poll" class="btn btn-md btn-success pull-right"></button> </a>
+						</div>
+						<%#=render 'poll',poll:poll%>
+							<a href="#active_poll_<%=poll.id%>" data-toggle="collapse"><div class="container"><h4><%=poll.title%></h4></div></a>
+
+										<div id = "active_poll_<%=poll.id%>" class="collapse container">
+										
+										<h5><%=poll.content%>
+										
+										
+										</h5>
+										<span class="label label-default"><%=pluralize(poll.votes.length,'vote')%></span>
+										<%#@all_votes.where(poll_id:poll.id).length%>
+										<%if Time.now<poll.end_time%>
+										
+											<span class="label label-info">Active</span>
+										<%else%>
+										<span class="label label-danger">The poll has ended!</span>
+
+										<%end%>
+										</div>
+						
+						</div>
+
+					<%end%>
+				</div>
+			</div>
+			<div id="ended" class="tab-pane fade">
+				<div id ="endedPolls">
+					<%@ended_polls.each do |poll|%>
+						<div class="jumbotron">
+						<div id="viewDelete">
+						<%=form_tag("/polls/destroy",method:"delete") do %>
+							<%=hidden_field_tag "poll_id", poll.id%>
+							<%=submit_tag "Delete Poll",data: {confirm: "Are you sure you want to delete your poll : #{poll.title}?"},class:"btn btn-md btn-danger pull-right"%>
+							<%end%>
+						<a href="/polls/view/<%=poll.id%>"><input type="button" value="View Poll" class="btn btn-md btn-success pull-right"></button> </a>
+						</div>						<a href="#ended_poll_<%=poll.id%>" data-toggle="collapse">
+								<div class="container">
+								<h4><%=poll.title%></h4>
+								</div></a>
+
+								<div id = "ended_poll_<%=poll.id%>" class="collapse container">
+								
+								<h5><%=poll.content%>
+
+								
+								
+								</h5>
+								<span class="label label-default"><%=pluralize(poll.votes.length,'vote')%></span>
+								<%#@all_votes.where(poll_id:poll.id).length%>
+								<%if Time.now<poll.end_time%>
+									<span class="label label-info">Active</span>
+								<%else%>
+								<span class="label label-danger">The poll has ended!</span>
+
+								<%end%>
+								</div>
+
+
+
+
+						
+						</div>
+
+					<%end%>
+				</div>
+			</div>
+		</div>
+
+	</div>

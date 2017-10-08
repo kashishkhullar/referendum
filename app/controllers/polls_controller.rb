@@ -60,6 +60,9 @@ class PollsController < ApplicationController
   end
 
   def destroy
+    poll_id=params[:poll_id]
+    Poll.find_by(id:poll_id).destroy!
+    redirect_to '/home/profile',notice: "Poll was successfully deleted."
   end
 
   def view

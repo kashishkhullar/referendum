@@ -37,7 +37,7 @@
 	<%= p.label :"1", "1:", class: "input-group-addon" %>
 	<%= p.text_area :option_1,class: "form-control",placeholder: "Add some text here"%>
 	</div>
-		<div class="input-group input-group-sm">
+	<div class="input-group input-group-sm">
 
 	<%= p.label :"1", "2:", class: "input-group-addon" %>
 	<%= p.text_area :option_2,class: "form-control",placeholder: "Add some text here"%>
@@ -49,7 +49,8 @@
 	<%#= p.text_area :option_4%>
 	<%#= p.text_area :option_5%>
 	<div class="form-check-inline">
-	<h4><%=p.check_box :private%> <label class="form-check-label">Private </label></h4><small>*Private polls are not visible in search results.</small>
+	<br>
+	<h4><br><br><%=p.check_box :private%> <label class="form-check-label">Private </label><small> (Private polls are not visible in search results.)</small></h4>
 	
 	</div>
 	<%= p.submit "Create Poll",class:" btn btn-lg btn-success col-xs-12"%>
@@ -90,7 +91,7 @@
 										<small> <%=pluralize(poll.votes.length,'vote')%> on this poll</small>
 										<br>
 										</h5>
-										<%@all_votes.where(poll_id:poll.id).length%>
+										<%#@all_votes.where(poll_id:poll.id).length%>
 										<%if Time.now<poll.end_time%>
 										<%options=@all_options.where(poll_id: poll.id)%>
 										<%#if voter_signed_in? && @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
@@ -105,18 +106,18 @@
 										<%#end%>
 										<%#end%>
 											<%if voter_signed_in?%>
-												<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
-													<%options.each do |o|%>
-														<%=render 'option',option:o%>
-													<%end%>
+												<%if @all_votes.where(voter_id: current_voter.id,poll_id: poll.id).nil?%>
+													<%#options.each do |o|%>
+														<%#=render 'option',option:o%>
+													<%#end%>
 												<%else%>
-												<span class="label label-success">thank you for voting!</span>
+												<span class="label label-success">Thank you for voting!</span>
 												
 												<%end%>
-											<%else%>
-												<%options.each do |o|%>
-													<%=render 'option',option:o%>
-												<%end%>
+											<%#else%>
+												<%#options.each do |o|%>
+													<%#=render 'option',option:o%>
+												<%#end%>
 											<%end%>
 											<span class="label label-info">Active</span>
 										<%else%>
@@ -147,7 +148,7 @@
 								<small> <%=pluralize(poll.votes.length,'vote')%> on this poll</small>
 								<br>
 								</h5>
-								<%@all_votes.where(poll_id:poll.id).length%>
+								<%#@all_votes.where(poll_id:poll.id).length%>
 								<%if Time.now<poll.end_time%>
 								<%options=@all_options.where(poll_id: poll.id)%>
 								<%#if voter_signed_in? && @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
@@ -162,18 +163,18 @@
 								<%#end%>
 								<%#end%>
 									<%if voter_signed_in?%>
-										<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
-											<%options.each do |o|%>
-												<%=render 'option',option:o%>
-											<%end%>
+										<%if @all_votes.where(voter_id: current_voter.id,poll_id: poll.id).nil?%>
+											<%#options.each do |o|%>
+												<%#=render 'option',option:o%>
+											<%#end%>
 										<%else%>
-										<span class="label label-success">thank you for voting!</span>
+										<span class="label label-success">Thank you for voting!</span>
 										
 										<%end%>
-									<%else%>
-										<%options.each do |o|%>
-											<%=render 'option',option:o%>
-										<%end%>
+									<%#else%>
+										<%#options.each do |o|%>
+											<%#=render 'option',option:o%>
+										<%#end%>
 									<%end%>
 									<span class="label label-info">Active</span>
 								<%else%>
@@ -217,22 +218,37 @@
 	<%#end%>
 	</ol> -->
 <%else%>
-	<h3>Search Result Found: <%=@search_count%></h3>
-	<%= will_paginate @search %>
-	<ol id ="polls">
+<div class="container">
+	<h2><%=pluralize(@search_count,"Search Result")%> Found</h2>
+	<div style="display: flex;justify-content: center;">
+	<%= will_paginate @search,renderer: BootstrapPagination::Rails%>
+	</div>
 	<%@search.each do |poll|%>
-	<li>
-	<%=poll.title%>
-	<br>
-	<%=poll.content%>
-	<br>
-	<br><%=poll.votes.length%>
-	<br>
-	</li>
-	<%end%>
-	</ol>
-	<%if @search.blank?%>
-	there are no searchs.
-	<%end%>
+	<a href="/polls/view/<%=poll.id%>" style="text-decoration: none;">
+		<div class="container" style='background-color: #F8F8F8;padding:20px;'>
+		<h4><%=poll.title%></h4>
+		<div id = "poll_<%=poll.id%>">
+		<h5><%=poll.content%>
+		<small> <%=pluralize(poll.votes.length,'vote')%> on this poll</small>
+		
+		</h5>
+		<%@all_votes.where(poll_id:poll.id).length%>
+		<%if Time.now<poll.end_time%>
+			<span class="label label-info">Active</span>
+		<%else%>
+		<span class="label label-danger">The poll has ended!</span>
 
+		<%end%>
+		</div>
+		</div>
+		</a>
+		<br>
+	<%end%>
+	<div style="display: flex;justify-content: center;">
+	<%= will_paginate @search,renderer: BootstrapPagination::Rails%>
+	</div>
+	<%if @search.blank?%>
+	Nothing Found.
+	<%end%>
+</div>
 <%end%>

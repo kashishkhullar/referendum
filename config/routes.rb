@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   get 'polls/edit'
 
-  get 'polls/destroy'
+  delete 'polls/destroy'
 
   get 'polls/view/:poll_id' =>"polls#view"
 

@@ -97,4 +97,42 @@
    	
    	background-color:#F8F8F8;
    }
-*/
+
+
+
+
+
+
+
+
+   div.share div.social-share-button .ssb-icon {
+background-size: 40px 69px;
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    margin: 6px 6px;
+    box-sizing: border-box;
+    }
+
+
+
+
+
+.badge-success {
+  background-color: #468847 !important;
+}
+
+a
+{
+	text-decoration: none;
+}
+
+
+
+#loginform
+{
+	background-color: #F8F8F8;
+	margin: auto;
+	width:30%;
+	padding:20px;
+}

@@ -1,4 +1,5 @@
 class NotificationsController < ApplicationController
+	before_action :authenticate_voter!
 
 	def get_notifications
 

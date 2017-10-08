@@ -1,5 +1,5 @@
 
-	<div id="option_<%=option.id%>">
+	<span id="option_<%=option.id%>">
 	<%if voter_signed_in?%>
 	<%=form_for @vote,url:votes_create_path,remote: true do |v|%>
 	
@@ -7,11 +7,16 @@
 	<%=v.hidden_field :poll_id,:value=> option.poll.id%>
 	<%=v.hidden_field :voter_id,:value=> current_voter.id%>
 	
-	<%=v.submit option.name%>
+	<%=v.submit option.name ,class:" btn  btn-md btn-info"%>
+
 	<%end%>
+
 	<%else%>
-	<%=option.name%>
+	
+
+	<input type="submit" name="commit" value="<%=option.name%>" class=" btn  btn-md btn-info">
+	<br>
 	<%end%>
 	<br>
 	
-	</div>
+	</span>

@@ -7,18 +7,19 @@ class HomeController < ApplicationController
     # @search_result_polls=nil
     # # puts "here"
     # puts @search
+    @all_votes=Vote.all
     if params[:search].nil?
         @poll=Poll.new
         @option= Option.new
-        @all_polls=Poll.all
-        @all_options=Option.all
+        @all_polls=Poll.all.includes(:votes,:options)
+        @all_options=Option.all.includes(:votes)
         @vote=Vote.new
-        @all_votes=Vote.all
+        
         @top=getTop.reverse.take(10)
         @latest=getLatest.take(10)
     else
 
-      @search=Poll.search(params[:search]).paginate(:page =>params[:page]).where(private: false).order(created_at: :desc)
+      @search=Poll.search(params[:search]).paginate(:page =>params[:page]).where(private: false).order(created_at: :desc).includes(:votes)
       #@search.paginate(:page =>params[:page])
       #@all=Poll.
       @search_count=Poll.search(params[:search]).length
@@ -46,8 +47,8 @@ class HomeController < ApplicationController
 
 
   def profile
-    @ended_polls=Poll.includes(:votes,:options).where(voter_id: current_voter.id,ended: true)
-    @active_polls=Poll.includes(:votes,:options).where(voter_id: current_voter.id,ended: false)
+    @ended_polls=Poll.includes(:votes,:options).where(voter_id: current_voter.id,ended: true).order(created_at: :desc)
+    @active_polls=Poll.includes(:votes,:options).where(voter_id: current_voter.id,ended: false).order(created_at: :desc)
     #@all_votes=Vote.all
     #@all_options=Option.all
   end

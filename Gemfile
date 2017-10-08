@@ -38,7 +38,7 @@ gem 'rails4-autocomplete'
 gem 'jquery-ui-rails'
 gem 'will_paginate', '~> 3.1.0'
 gem 'social-share-button'
-
+gem 'will_paginate-bootstrap'
 
 
 group :development, :test do

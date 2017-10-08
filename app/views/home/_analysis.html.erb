@@ -1,10 +1,7 @@
-Total Votes: <%=poll.votes.length%>
-<br>
-Options:
 <%poll.options.each do |option|%><br>
-Total votes on <%=option.name%> : <%=option.votes.length%> <br>
+<h4><%=option.name%> <span class="label label-default"><%=pluralize(option.votes.length,'vote')%></span> </h4><br>
 <%if option.votes.length>0%>
-Percentage: <%=(option.votes.length/poll.votes.length)*100%>
+<h5>Percentage: <%=(option.votes.length/poll.votes.length)*100%>%</h5>
 <%else%>
 There are no votes on this option yet.
 <%end%>

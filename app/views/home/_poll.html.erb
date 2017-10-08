@@ -27,9 +27,10 @@
 		<%if @all_votes.find_by(voter_id: current_voter.id,poll_id: poll.id).nil?%>
 			<%options.each do |o|%>
 				<%=render 'option',option:o%>
+				
 			<%end%>
 		<%else%>
-		<span class="label label-success">thank you for voting!</span>
+		<span class="label label-success">Thank you for voting!</span>
 		
 		<%end%>
 	<%else%>

@@ -55,24 +55,24 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hi <%=current_voter.username%>! <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Profile</a></li>
+            <li><a href="/home/profile">Profile</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Logout</a></li>
+            <li><%= link_to('Sign Out',destroy_voter_session_path, method: :delete)%></li>
             
           </ul>
         </li>
         <li class="dropdown">
-          <a href="#" id="notificationbox" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notifications<span class="badge">0</span><span class="caret"></span></a>
+          <a href="#" id="notificationbox" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notifications <span class="badge badge-info">0</span><span class="caret"></span></a>
           <ul class="dropdown-menu">
-          <div id="notifications" style="padding: 10px">
+          <ul id="notifications" style="padding: 10px">
             <li>No Notifications</li>
              <li role="separator" class="divider"></li>
-          </div>
+          </ul>
           <div id="read_all" style="padding: 10px">Mark all as read</div>
           </ul>
         </li>
         <%else%>
-			<%=link_to "Signin",new_voter_session_path%>
+			<li><%=link_to "Signin",new_voter_session_path%></li>
 		<%end%>
       </ul>
       <!-- navbar-left will move the search to the left -->

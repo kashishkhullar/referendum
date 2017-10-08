@@ -1,4 +1,5 @@
 class OptionsController < ApplicationController
+  before_action :authenticate_voter!
   def add
   	respond_to do |format|
   		format.html{redirect_to '/home/index'}
