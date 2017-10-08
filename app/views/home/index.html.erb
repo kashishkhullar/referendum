@@ -50,9 +50,11 @@
 	<%#= p.text_area :option_5%>
 	<div class="form-check-inline">
 	<br>
-	<h4><br><br><%=p.check_box :private%> <label class="form-check-label">Private </label><small> (Private polls are not visible in search results.)</small></h4>
-	
+	<br>
+	<!-- <h4><br><br><%#=p.check_box :private%> <label class="form-check-label">Private </label><small> (Private polls are not visible in search results.)</small></h4> -->
+	<br>
 	</div>
+	<br>
 	<%= p.submit "Create Poll",class:" btn btn-lg btn-success col-xs-12"%>
 	<%end%>
 </div>
@@ -75,6 +77,7 @@
 			<li class="active"><a data-toggle="tab" href="#top10">Top 10 Polls</a></li>
 			<li><a data-toggle="tab" href="#latest10">Latest 10 Polls</a></li>
 		</ul>
+		<br>
 
 		<div class="tab-content">
 			<div id="top10" class="tab-pane fade in active ">

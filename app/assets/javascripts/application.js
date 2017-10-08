@@ -39,9 +39,11 @@ $('document').ready(function()
 			success: function()
 			{
 				
-				$('div#notificationbox').html('Notifications <span class="badge">0</span><span class="caret"></span>');
-				$('div#notifications').html('<li>No Notifications</li><li role="separator" class="divider"></li>');
+				$('#notificationbox').html('Notifications <span class="badge">0</span><span class="caret"></span>');
+				$('#notifications').html('<li>No Notifications</li><li role="separator" class="divider"></li>');
+				//$('ul#notifications').html('hello');
 				console.log($('#notificationbox'));
+				console.log($('#notifications'))
 				//$('#notifications').children().remove();
 			}
 			});

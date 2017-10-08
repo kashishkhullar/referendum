@@ -19,7 +19,7 @@ class HomeController < ApplicationController
         @latest=getLatest.take(10)
     else
 
-      @search=Poll.search(params[:search]).paginate(:page =>params[:page]).where(private: false).order(created_at: :desc).includes(:votes)
+      @search=Poll.search(params[:search]).paginate(:page =>params[:page]).order(created_at: :desc).includes(:votes)
       #@search.paginate(:page =>params[:page])
       #@all=Poll.
       @search_count=Poll.search(params[:search]).length

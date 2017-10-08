@@ -25,7 +25,11 @@ $('document').ready(function(){
 				// console.log(data.notifications[0]);
 				// console.log(data.notifications[0].id);
 				//console.log($('div#notifications' + '>a#'+ data.notifications[i].id));
-				$('#notifications').html('');
+				$('#notifications').empty();
+				if(count==0){
+									$('#notifications').html('<li>No Notifications</li><li role="separator" class="divider"></li>');
+
+				}
 				for(var i=0;i<count;i++)
 				{
 					//console.log(data.notifications[i].id);
@@ -38,7 +42,7 @@ $('document').ready(function(){
 							
 
 
-							$('#notifications').prepend("<li><a  href='http://localhost:3000" +data.notifications[i].link +"' id="+"'"+data.notifications[i].id+"'>"+ data.notifications[i].message + "</a></li><li role='separator' class='divider'></li>");
+							$('#notifications').prepend("<div><a  href='http://localhost:3000" +data.notifications[i].link +"' id="+"'"+data.notifications[i].id+"'>"+ data.notifications[i].message + "</a></div><li role='separator' class='divider'></li>");
 
 							$('a#'+ data.notifications[i].id).on('click',function(event)
 							{
@@ -70,7 +74,7 @@ $('document').ready(function(){
 			}
 		});
 	}
-
+if(current_voter_id)
 	setInterval(get_notifications,4000);
 
 
