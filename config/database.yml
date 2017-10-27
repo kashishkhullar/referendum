@@ -9,8 +9,8 @@ default: &default
   adapter: postgresql
   pool: 5
   encoding: utf8
-   timeout: 5000
-   username: ubuntu
+  timeout: 5000
+  username: ubuntu
   password: <%= ENV['REFERENDUM_DATABASE_PASSWORD'] %>
 
 development:
