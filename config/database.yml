@@ -5,18 +5,18 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: sqlite3
-  #adapter: postgresql
+  #adapter: sqlite3
+  adapter: postgresql
   pool: 5
-  encoding: utf8
+  encoding: unicode
   timeout: 5000
-  #username: ubuntu
-  #password: <%= ENV['REFERENDUM_DATABASE_PASSWORD'] %>
+  username: kashish
+  password: pguser
 
 development:
   <<: *default
-  database: db/development.sqlite3
-  #database: db/development
+  #database: db/development.sqlite3
+  database: db/development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

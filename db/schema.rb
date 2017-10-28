@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20171003073325) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
     t.integer  "attempts",   default: 0, null: false
@@ -27,7 +30,7 @@ ActiveRecord::Schema.define(version: 20171003073325) do
     t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "notifications", force: :cascade do |t|
     t.integer  "voter_id"
@@ -37,7 +40,7 @@ ActiveRecord::Schema.define(version: 20171003073325) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "notifications", ["voter_id"], name: "index_notifications_on_voter_id"
+  add_index "notifications", ["voter_id"], name: "index_notifications_on_voter_id", using: :btree
 
   create_table "options", force: :cascade do |t|
     t.string   "name"
@@ -46,7 +49,7 @@ ActiveRecord::Schema.define(version: 20171003073325) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "options", ["poll_id"], name: "index_options_on_poll_id"
+  add_index "options", ["poll_id"], name: "index_options_on_poll_id", using: :btree
 
   create_table "polls", force: :cascade do |t|
     t.text     "title"
@@ -67,7 +70,7 @@ ActiveRecord::Schema.define(version: 20171003073325) do
     t.boolean  "ended",      default: false
   end
 
-  add_index "polls", ["voter_id"], name: "index_polls_on_voter_id"
+  add_index "polls", ["voter_id"], name: "index_polls_on_voter_id", using: :btree
 
   create_table "voters", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -86,8 +89,8 @@ ActiveRecord::Schema.define(version: 20171003073325) do
     t.string   "ip_address"
   end
 
-  add_index "voters", ["email"], name: "index_voters_on_email", unique: true
-  add_index "voters", ["reset_password_token"], name: "index_voters_on_reset_password_token", unique: true
+  add_index "voters", ["email"], name: "index_voters_on_email", unique: true, using: :btree
+  add_index "voters", ["reset_password_token"], name: "index_voters_on_reset_password_token", unique: true, using: :btree
 
   create_table "votes", force: :cascade do |t|
     t.integer  "poll_id"
@@ -97,8 +100,8 @@ ActiveRecord::Schema.define(version: 20171003073325) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "votes", ["option_id"], name: "index_votes_on_option_id"
-  add_index "votes", ["poll_id"], name: "index_votes_on_poll_id"
-  add_index "votes", ["voter_id"], name: "index_votes_on_voter_id"
+  add_index "votes", ["option_id"], name: "index_votes_on_option_id", using: :btree
+  add_index "votes", ["poll_id"], name: "index_votes_on_poll_id", using: :btree
+  add_index "votes", ["voter_id"], name: "index_votes_on_voter_id", using: :btree
 
 end
