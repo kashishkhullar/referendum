@@ -74,7 +74,7 @@ $('document').ready(function(){
 			}
 		});
 	}
-if(current_voter_id)
+if(typeof(current_voter_id)=='number')
 	setInterval(get_notifications,4000);
 
 
