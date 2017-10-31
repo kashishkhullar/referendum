@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "railsproject100@gmail.com"
+  default from: "referendumindia@gmail.com"
   layout 'mailer'
 end
